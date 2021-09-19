@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Label;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -23,6 +24,27 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private Button btnDesconectar;
+    
+    @FXML
+    private Label lbl1;
+    
+    @FXML
+    private Label lbl2;
+    
+    @FXML
+    private Label lbl3;
+    
+    @FXML
+    private Label lbl4;
+    
+    @FXML
+    private Label lbl5;
+    
+    @FXML
+    private Label lbl6;
+    
+    @FXML
+    private ListView lstRegistros;
 
     private SerialPort porta;
 

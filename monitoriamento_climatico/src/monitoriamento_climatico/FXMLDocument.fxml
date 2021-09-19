@@ -186,7 +186,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <ListView fx:id="lstRegistro" prefHeight="325.0" prefWidth="655.0">
+      <ListView fx:id="lstRegistros" prefHeight="325.0" prefWidth="655.0">
          <VBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" />
          </VBox.margin>
