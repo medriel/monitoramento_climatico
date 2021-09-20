@@ -34,16 +34,16 @@ void setup() {
 
 void sensor_DHT11(){
 //  Serial.print("Umidade: ");
-  Serial.println((int)dht.readHumidity()); //IMPRIME NA SERIAL O VALOR DE UMIDADE MEDIDO
+  Serial.print((String)dht.readHumidity()+";"); //IMPRIME NA SERIAL O VALOR DE UMIDADE MEDIDO
 //  Serial.print("%");
 //  Serial.print(" / Temperatura: ");
-  Serial.println(dht.readTemperature(), 0); //IMPRIME NA SERIAL O VALOR DE UMIDADE MEDIDO E REMOVE A PARTE DECIMAL
+  Serial.print((String)(dht.readTemperature())+";"); //IMPRIME NA SERIAL O VALOR DE UMIDADE MEDIDO E REMOVE A PARTE DECIMAL
 //  Serial.println("*C");
 }
 
 void sensor_LDR(){
   int valor_analogico = analogRead(pinoLDR);
-  Serial.println(valor_analogico);
+  Serial.print((String)valor_analogico+";");
 //  if(valor_analogico > 350){
 //    Serial.println("Noite");
 //  }  
@@ -54,7 +54,7 @@ void sensor_LDR(){
 
 void sensor_MQ_2(){
   int valor_analogico = analogRead(MQ_analog);
-  Serial.println(valor_analogico);
+  Serial.print((String)valor_analogico+";");
 //  if(valor_analogico >100){
 //    Serial.println("Indicio de incêndio");
 //  }else{
@@ -64,7 +64,7 @@ void sensor_MQ_2(){
 
 void sensor_de_chuva(){
   int valor_analogico = analogRead(pinoSensorChuva);
-  Serial.println(valor_analogico);
+  Serial.print((String)valor_analogico+";");
 //  if(valor_analogico<900 && valor_analogico>300){
 //    Serial.println("Chuva leve");
 //  }else if(valor_analogico<300){
@@ -77,7 +77,7 @@ void sensor_de_chuva(){
 void sensor_higrometro(){
   int valor_analogico = analogRead(pinoSensorHigrometro);
 
-  Serial.println( valor_analogico);
+  Serial.print( (String)valor_analogico+";");
 //  
 //  if(valor_analogico > 0 && valor_analogico < 400){
 //    Serial.println("umido");
@@ -102,5 +102,5 @@ void loop() {
 //    Serial.println("---- Sensor de Humidade do solo ------");
     sensor_higrometro();
 //    Serial.println("\n\n\n\n");
-    delay(2000);
+    delay(60000); // 1 min
 }
