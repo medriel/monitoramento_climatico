@@ -58,7 +58,7 @@ void sensor_MQ_2(){
 //  if(valor_analogico >100){
 //    Serial.println("Indicio de incêndio");
 //  }else{
-//    Serial.println("Qualidade do ar normal");
+//    Serial.println("sem indicio de incêndio");
 //  }
 }
 
@@ -80,13 +80,13 @@ void sensor_higrometro(){
   Serial.println( valor_analogico);
 //  
 //  if(valor_analogico > 0 && valor_analogico < 400){
-//    Serial.println(" Status: Solo umido");
+//    Serial.println("umido");
 //  }
 //  if (valor_analogico > 400 && valor_analogico < 800){
-//    Serial.println(" Status: Umidade moderada");
+//    Serial.println("com umidade moderada");
 //  }
 //  if (valor_analogico > 800 && valor_analogico < 1024){
-//    Serial.println(" Status: Solo seco");
+//    Serial.println("seco");
 //  }
 }
 
