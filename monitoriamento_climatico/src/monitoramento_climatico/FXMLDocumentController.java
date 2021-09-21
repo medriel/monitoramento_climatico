@@ -61,7 +61,7 @@ public class FXMLDocumentController implements Initializable {
     private SerialPort porta;
 
     Thread thread;
-    
+
     Registro r = new Registro();
 
     @Override
@@ -82,8 +82,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void btnConectarAction() throws SQLException {
-
-        lbl1.setText("teste");
+        preencherLista();
 
         porta = SerialPort.getCommPort(cbPortas.getSelectionModel().getSelectedItem().toString());
         porta.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
@@ -136,7 +135,9 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     public void btnDesconectarAction() {
-
+        
+        preencherLista();
+        
         thread.interrupt();
         porta.closePort();
         cbPortas.setDisable(false);
@@ -170,32 +171,32 @@ public class FXMLDocumentController implements Initializable {
     public void gravar(String umidade, String temperatura, String ldr, String mq_2, String chuva, String higrometro) throws Exception {
         String sql = "insert into registro(umidade, temperatura, ldr, mq_2, chuva, higrometro, data_hora) values (?,?,?,?,?,?,?)";
         PreparedStatement ps = getPreparedStatement(false, sql);
-        
-        if((Integer.parseInt(ldr))>350){
-            ldr="Noite";
-        }else{
-           ldr="Dia";
+
+        if ((Integer.parseInt(ldr)) > 350) {
+            ldr = "Noite";
+        } else {
+            ldr = "Dia";
         }
-        
-        if((Integer.parseInt(mq_2))>100){
-            mq_2="existe indicio de incêndio";
-        }else{
-            mq_2="não existe indicio de incêndio";
+
+        if ((Integer.parseInt(mq_2)) > 100) {
+            mq_2 = "existe indicio de incêndio";
+        } else {
+            mq_2 = "não existe indicio de incêndio";
         }
-        
-        if((Integer.parseInt(chuva))<900 && (Integer.parseInt(chuva))>300){
-            chuva="Chove leve";
-        }else if((Integer.parseInt(chuva))<300){
+
+        if ((Integer.parseInt(chuva)) < 900 && (Integer.parseInt(chuva)) > 300) {
+            chuva = "Chove leve";
+        } else if ((Integer.parseInt(chuva)) < 300) {
             chuva = "Chove intensamente";
-        }else{
-            chuva="Não chove";
+        } else {
+            chuva = "Não chove";
         }
-        
-        if((Integer.parseInt(higrometro))>0 && (Integer.parseInt(higrometro))<400){
-            higrometro="umido";
-        }else if((Integer.parseInt(higrometro))>400 && (Integer.parseInt(higrometro))<800){
+
+        if ((Integer.parseInt(higrometro)) > 0 && (Integer.parseInt(higrometro)) < 400) {
+            higrometro = "umido";
+        } else if ((Integer.parseInt(higrometro)) > 400 && (Integer.parseInt(higrometro)) < 800) {
             higrometro = "com umidade moderada";
-        }else if((Integer.parseInt(higrometro))>800 && (Integer.parseInt(higrometro))<1024){
+        } else if ((Integer.parseInt(higrometro)) > 800 && (Integer.parseInt(higrometro)) < 1024) {
             higrometro = "seco";
         }
 
@@ -207,8 +208,6 @@ public class FXMLDocumentController implements Initializable {
         ps.setString(6, higrometro);
         ps.setString(7, getDateTime());
         ps.executeUpdate();
-        
-        preencherLista();
     }
 
     public List<Registro> consultarDados() throws Exception {
@@ -232,7 +231,7 @@ public class FXMLDocumentController implements Initializable {
 
         return registros;
     }
-    
+
     private void preencherLista() {
         List<Registro> registros;
         try {
