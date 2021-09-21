@@ -65,4 +65,20 @@ public class Registro {
     public void setData_hora(String data_hora) {
         this.data_hora = data_hora;
     }
+    
+     @Override
+    public String toString() {
+        return (
+                "--------------------------------------------------------------------------------------\n"+
+                "\t \t \t \t Histórico de Momitoramento Climático \n"+
+                "Umidade do ar: "+umidade +"%"+"\n"
+                +"Temperatura: "+temperatura +"ºC"+"\n"
+                +"Atualmente é "+ldr +"\n"
+                +"A condição do ar indica que "+ mq_2 +"\n"
+                +"No momento "+chuva +"\n"
+                +"O solo está "+higrometro +"\n"
+                + "Data e hora do registro das condições climáticas: " + data_hora + "\n"+
+                "--------------------------------------------------------------------------------------\n\n"
+                );
+    }
 }

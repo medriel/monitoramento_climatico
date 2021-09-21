@@ -6,6 +6,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
@@ -15,6 +16,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -58,10 +61,13 @@ public class FXMLDocumentController implements Initializable {
     private SerialPort porta;
 
     Thread thread;
+    
+    Registro r = new Registro();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         carregarPortas();
+        preencherLista();
     }
 
     private void carregarPortas() {
@@ -99,7 +105,7 @@ public class FXMLDocumentController implements Initializable {
                             String response = new String(buffer, 0, bytesRead);
                             result = response;
                         }
-                        Thread.sleep(60000); // 1 min
+                        Thread.sleep(1000); // 1 min
                         in.close();
                         if (result.length() > 20 && result.length() < 50) { // eliminando possiveis erros q geral valores aleatorios da leitura da porta
                             System.out.println("teste ");
@@ -164,6 +170,34 @@ public class FXMLDocumentController implements Initializable {
     public void gravar(String umidade, String temperatura, String ldr, String mq_2, String chuva, String higrometro) throws Exception {
         String sql = "insert into registro(umidade, temperatura, ldr, mq_2, chuva, higrometro, data_hora) values (?,?,?,?,?,?,?)";
         PreparedStatement ps = getPreparedStatement(false, sql);
+        
+        if((Integer.parseInt(ldr))>350){
+            ldr="Noite";
+        }else{
+           ldr="Dia";
+        }
+        
+        if((Integer.parseInt(mq_2))>100){
+            mq_2="existe indicio de incêndio";
+        }else{
+            mq_2="não existe indicio de incêndio";
+        }
+        
+        if((Integer.parseInt(chuva))<900 && (Integer.parseInt(chuva))>300){
+            chuva="Chove leve";
+        }else if((Integer.parseInt(chuva))<300){
+            chuva = "Chove intensamente";
+        }else{
+            chuva="Não chove";
+        }
+        
+        if((Integer.parseInt(higrometro))>0 && (Integer.parseInt(higrometro))<400){
+            higrometro="umido";
+        }else if((Integer.parseInt(higrometro))>400 && (Integer.parseInt(higrometro))<800){
+            higrometro = "com umidade moderada";
+        }else if((Integer.parseInt(higrometro))>800 && (Integer.parseInt(higrometro))<1024){
+            higrometro = "seco";
+        }
 
         ps.setString(1, umidade);
         ps.setString(2, temperatura);
@@ -173,6 +207,41 @@ public class FXMLDocumentController implements Initializable {
         ps.setString(6, higrometro);
         ps.setString(7, getDateTime());
         ps.executeUpdate();
+        
+        preencherLista();
     }
 
+    public List<Registro> consultarDados() throws Exception {
+        String sql = "SELECT * FROM registro order by data_hora desc";
+        PreparedStatement ps = getPreparedStatement(false, sql);
+
+        ResultSet rs = ps.executeQuery();
+
+        List<Registro> registros = new ArrayList<Registro>();
+        while (rs.next()) {
+            Registro registro = new Registro();
+            registro.setUmidade(rs.getString("umidade"));
+            registro.setTemperatura(rs.getString("temperatura"));
+            registro.setLdr(rs.getString("ldr"));
+            registro.setMq_2(rs.getString("mq_2"));
+            registro.setChuva(rs.getString("chuva"));
+            registro.setHigrometro(rs.getString("higrometro"));
+            registro.setData_hora(rs.getString("data_hora"));
+            registros.add(registro);
+        }
+
+        return registros;
+    }
+    
+    private void preencherLista() {
+        List<Registro> registros;
+        try {
+            registros = consultarDados();
+            ObservableList<Registro> data = FXCollections.observableArrayList(registros);
+            lstRegistros.setItems(data);
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
 }
