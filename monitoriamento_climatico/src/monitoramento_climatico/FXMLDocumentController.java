@@ -15,16 +15,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Label;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -36,24 +33,6 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private Button btnDesconectar;
-
-    @FXML
-    private Label lbl1;
-
-    @FXML
-    private Label lbl2;
-
-    @FXML
-    private Label lbl3;
-
-    @FXML
-    private Label lbl4;
-
-    @FXML
-    private Label lbl5;
-
-    @FXML
-    private Label lbl6;
 
     @FXML
     private ListView lstRegistros;
@@ -90,12 +69,10 @@ public class FXMLDocumentController implements Initializable {
         InputStream in = porta.getInputStream();
 
         thread = new Thread() {
-
             public void run() {
-
                 int availableBytes = 0;
                 do {
-                    result = "";
+                    result = ""; //Zerando o valor da variavel para a proxima leitura
                     try {
                         availableBytes = porta.bytesAvailable();
                         if (availableBytes > 0) {
@@ -104,12 +81,9 @@ public class FXMLDocumentController implements Initializable {
                             String response = new String(buffer, 0, bytesRead);
                             result = response;
                         }
-                        Thread.sleep(1000); // 1 min
+                        Thread.sleep(60000); // 1 min
                         in.close();
                         if (result.length() > 20 && result.length() < 50) { // eliminando possiveis erros q geral valores aleatorios da leitura da porta
-                            System.out.println("teste ");
-                            System.out.println(result);
-                            System.out.println("Resultado: ");
                             String array[] = new String[6];
                             array = result.split(";"); // separando a string lida da porta serial atravez do caracter ; adicionado no arduino
                             String umidade = array[0];
@@ -120,7 +94,6 @@ public class FXMLDocumentController implements Initializable {
                             String higrometro = array[5];
                             gravar(umidade, temperatura, ldr, mq_2, chuva, higrometro);
                         }
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -131,17 +104,17 @@ public class FXMLDocumentController implements Initializable {
         cbPortas.setDisable(true);
         thread.start();
         btnConectar.setDisable(true);
+        btnDesconectar.setDisable(false);
     }
 
     @FXML
     public void btnDesconectarAction() {
-        
         preencherLista();
-        
+
         thread.interrupt();
         porta.closePort();
         cbPortas.setDisable(false);
-
+        btnDesconectar.setDisable(true);
         btnConectar.setDisable(false);
     }
 
@@ -158,7 +131,6 @@ public class FXMLDocumentController implements Initializable {
         } else {
             ps = getConexao().prepareStatement(sql);
         }
-
         return ps;
     }
 
@@ -228,7 +200,6 @@ public class FXMLDocumentController implements Initializable {
             registro.setData_hora(rs.getString("data_hora"));
             registros.add(registro);
         }
-
         return registros;
     }
 

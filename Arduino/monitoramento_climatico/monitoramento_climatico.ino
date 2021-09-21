@@ -34,10 +34,10 @@ void setup() {
 
 void sensor_DHT11(){
 //  Serial.print("Umidade: ");
-  Serial.print((String)dht.readHumidity()+";"); //IMPRIME NA SERIAL O VALOR DE UMIDADE MEDIDO
+  Serial.print((String)dht.readHumidity()+";"); //IMPRIME NA SERIAL O VALOR DE UMIDADE MEDIDO EM STRING E ADICIONA ; PARA REALIZAR O SPLIT NO SUPERVISORIO  
 //  Serial.print("%");
 //  Serial.print(" / Temperatura: ");
-  Serial.print((String)(dht.readTemperature())+";"); //IMPRIME NA SERIAL O VALOR DE UMIDADE MEDIDO E REMOVE A PARTE DECIMAL
+  Serial.print((String)(dht.readTemperature())+";"); //IMPRIME NA SERIAL O VALOR DE UMIDADE MEDIDO EM STRING E ADICIONA ; PARA REALIZAR O SPLIT NO SUPERVISORIO  
 //  Serial.println("*C");
 }
 
@@ -102,5 +102,5 @@ void loop() {
 //    Serial.println("---- Sensor de Humidade do solo ------");
     sensor_higrometro();
 //    Serial.println("\n\n\n\n");
-    delay(1000); // 1 min
+    delay(1000); //1 min
 }
