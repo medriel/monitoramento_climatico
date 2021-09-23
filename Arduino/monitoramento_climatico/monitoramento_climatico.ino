@@ -22,22 +22,23 @@ const int pinoSensorChuva = A3;
 // Higrômetro ---------
 const int pinoSensorHigrometro = A4;
 // --------------------
+
 void setup() {
   Serial.begin(2000000);
   dht.begin(); //DHT 11
   pinMode(pinoLDR, INPUT); // LDR
-   pinMode(MQ_analog, INPUT); // MQ-2
-   pinMode(pinoSensorChuva, INPUT); //Sensor de chuva
-   pinMode(pinoSensorHigrometro, INPUT); //Higrômetro
+  pinMode(MQ_analog, INPUT); // MQ-2
+  pinMode(pinoSensorChuva, INPUT); //Sensor de chuva
+  pinMode(pinoSensorHigrometro, INPUT); //Higrômetro
   delay(2000);
 }
 
 void sensor_DHT11(){
 //  Serial.print("Umidade: ");
-  Serial.print((String)dht.readHumidity()+";"); //IMPRIME NA SERIAL O VALOR DE UMIDADE MEDIDO EM STRING E ADICIONA ; PARA REALIZAR O SPLIT NO SUPERVISORIO  
+  Serial.print((String)dht.readHumidity()+";");  
 //  Serial.print("%");
 //  Serial.print(" / Temperatura: ");
-  Serial.print((String)(dht.readTemperature())+";"); //IMPRIME NA SERIAL O VALOR DE UMIDADE MEDIDO EM STRING E ADICIONA ; PARA REALIZAR O SPLIT NO SUPERVISORIO  
+  Serial.print((String)(dht.readTemperature())+";"); 
 //  Serial.println("*C");
 }
 
