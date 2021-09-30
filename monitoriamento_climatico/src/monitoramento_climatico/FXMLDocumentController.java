@@ -23,6 +23,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
 public class FXMLDocumentController implements Initializable {
@@ -38,6 +39,9 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private ListView lstRegistros;
+    
+    @FXML
+    private Label lblStatus;
 
     private SerialPort porta;
 
@@ -47,6 +51,7 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        lblStatus.setText("Desconectado");
         preencherLista();
         carregarPortas();
         try {
@@ -64,10 +69,9 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    String result;
-
     @FXML
     private void btnConectarAction() throws SQLException {
+        lblStatus.setText("Conectado");
         preencherLista();
 
         porta = SerialPort.getCommPort(cbPortas.getSelectionModel().getSelectedItem().toString());
@@ -76,6 +80,7 @@ public class FXMLDocumentController implements Initializable {
         InputStream in = porta.getInputStream();
 
         thread = new Thread() {
+            String result;
             public void run() {
                 int availableBytes = 0;
                 do {
@@ -88,7 +93,7 @@ public class FXMLDocumentController implements Initializable {
                             String response = new String(buffer, 0, bytesRead);
                             result = response;
                         }
-                        Thread.sleep(60000); // 1 min
+                        Thread.sleep(100);
                         in.close();
                         if (result.length() > 20 && result.length() < 50) { // eliminando possiveis erros q geral valores aleatorios da leitura da porta
                             String array[] = new String[6];
@@ -99,6 +104,7 @@ public class FXMLDocumentController implements Initializable {
                             String mq_2 = array[3];
                             String chuva = array[4];
                             String higrometro = array[5];
+                            System.out.println(umidade+" - "+temperatura+" - "+ldr+" - "+mq_2+" - "+chuva+" - "+higrometro);
                             gravar(umidade, temperatura, ldr, mq_2, chuva, higrometro);
                         }
                     } catch (Exception e) {
@@ -116,6 +122,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     public void btnDesconectarAction() {
+        lblStatus.setText("Desconectado");
         preencherLista();
 
         thread.interrupt();
@@ -151,7 +158,7 @@ public class FXMLDocumentController implements Initializable {
         String sql = "insert into registro(umidade, temperatura, ldr, mq_2, chuva, higrometro, data_hora) values (?,?,?,?,?,?,?)";
         PreparedStatement ps = getPreparedStatement(false, sql);
 
-        if ((Integer.parseInt(ldr)) > 350) {
+        if ((Integer.parseInt(ldr)) > 400) {
             ldr = "Noite";
         } else {
             ldr = "Dia";

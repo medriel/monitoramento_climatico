@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="monitoramento_climatico.FXMLDocumentController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="794.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="monitoramento_climatico.FXMLDocumentController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="32.0" prefWidth="787.0" text="Estação de monitoramento climático" textAlignment="CENTER">
          <font>
@@ -59,5 +59,25 @@
             <Insets bottom="20.0" left="20.0" right="20.0" />
          </VBox.margin>
       </ListView>
+      <HBox prefHeight="44.0" prefWidth="650.0">
+         <children>
+            <Label text="Status do Sistema:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Label>
+            <Label fx:id="lblStatus" text="Label">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
    </children>
 </VBox>

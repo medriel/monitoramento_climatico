@@ -103,5 +103,5 @@ void loop() {
 //    Serial.println("---- Sensor de Humidade do solo ------");
     sensor_higrometro();
 //    Serial.println("\n\n\n\n");
-    delay(1000); //1 min
+    delay(1000); // mudar para 1 min
 }
